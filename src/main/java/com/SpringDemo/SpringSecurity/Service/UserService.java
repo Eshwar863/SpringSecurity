@@ -8,6 +8,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
@@ -40,5 +41,10 @@ public class UserService {
         }
         else
             return "Session Expired";
+    }
+
+    public String Servicealive() {
+        System.out.println("Server is alive");
+        return "Alive";
     }
 }

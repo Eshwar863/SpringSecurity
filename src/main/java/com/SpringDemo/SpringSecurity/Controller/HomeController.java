@@ -16,7 +16,10 @@ public class HomeController {
     public String home() {
         return "Welcome to Spring Security";
     }
-
+    @GetMapping("alive")
+    public String alive() {
+     return userService.Servicealive();
+    }
     @GetMapping("users")
     public List<User> AllUsers() {
     return userService.getAllusers();
