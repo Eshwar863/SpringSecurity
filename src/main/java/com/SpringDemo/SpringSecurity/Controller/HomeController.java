@@ -26,7 +26,7 @@ public class HomeController {
      return userService.Servicealive();
     }
     @GetMapping("users")
-    public List<AllUsers> AllUsers() {
+    public ResponseEntity<List<AllUsers>> AllUsers() {
     return userService.getAllusers();
     }
     @PostMapping("register")

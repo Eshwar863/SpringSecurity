@@ -30,9 +30,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
        return http.csrf(customizer -> customizer.disable()).
-                authorizeHttpRequests(request -> request
-                        .requestMatchers("api/register","api/auth/login","api/alive").permitAll()
-                        .anyRequest().authenticated()).httpBasic(Customizer.withDefaults()).
+                authorizeHttpRequests(request -> {
+                    request.requestMatchers("api/register", "api/auth/login", "api/alive").permitAll();
+                    request.requestMatchers("api/mail/**").permitAll();
+                    request.requestMatchers("api/mail/forgotpassword").authenticated();
+
+                            request.anyRequest().authenticated();})
+                .httpBasic(Customizer.withDefaults()).
                sessionManagement(session ->
                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                .addFilterBefore(jwtFilter,

@@ -30,10 +30,10 @@ public class UserService {
     @Autowired
     private JwtService jwtService;
 
-    public List<AllUsers> getAllusers() {
+    public ResponseEntity<List<AllUsers>> getAllusers() {
         User user = retriveLoggedInUser();
         List<User> users = userRepo.findAll();
-        return  users.stream()
+        return new ResponseEntity<>( users.stream()
                 .map(alluser -> new AllUsers(
                     alluser.getId(),
                         alluser.getUserName(),
@@ -41,12 +41,11 @@ public class UserService {
                         alluser.getProfilepic(),
                         alluser.getDOB(),
                         alluser.getGender()
-                )).collect(Collectors.toList());
+                )).collect(Collectors.toList()), HttpStatus.OK);
     }
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
     public User register(User user) {
         user.setPassword(encoder.encode(user.getPassword()));
-        user.getUserName();
         System.out.println(user.getUserName());
         return userRepo.save(user);
     }
@@ -59,7 +58,7 @@ public class UserService {
             return jwtService.generateToken(user.getUserName());
         }
         else
-            return "Session Expired";
+            return"Session Expired";
     }
 
     public String Servicealive() {
@@ -87,7 +86,7 @@ public class UserService {
         if(authentication == null || !authentication.isAuthenticated())
             throw new BadCredentialsException("Bad Credentials login ");
         String username = authentication.getName();
-        System.out.println("In Logged In User "+username);
+        System.out.println(STR."In Logged In User \{username}");
         User user = userRepo.findByUserName(username);
         if(user == null){
             throw new UsernameNotFoundException("User Not Found");
