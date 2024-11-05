@@ -1,5 +1,6 @@
 package com.SpringDemo.SpringSecurity.Controller;
 
+import com.SpringDemo.SpringSecurity.Dto.LoginDto;
 import com.SpringDemo.SpringSecurity.Entity.User;
 import com.SpringDemo.SpringSecurity.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ public class AuthController {
 @Autowired
 UserService userService;
 @PostMapping("login")
-    public String login(@RequestBody User user) {
+    public String login(@RequestBody LoginDto user) {
     return userService.Verify(user);
 }
 
