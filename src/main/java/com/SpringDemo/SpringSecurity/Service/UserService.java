@@ -1,16 +1,19 @@
 package com.SpringDemo.SpringSecurity.Service;
 
+import com.SpringDemo.SpringSecurity.Dto.UpdateUserDetails;
 import com.SpringDemo.SpringSecurity.Entity.User;
 import com.SpringDemo.SpringSecurity.Repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -46,5 +49,16 @@ public class UserService {
     public String Servicealive() {
         System.out.println("Server is alive");
         return "Alive";
+    }
+
+    public ResponseEntity<?> updateUserDetails(UpdateUserDetails userDetails, Integer userid) {
+        Optional<User> users = userRepo.findById(userid);
+        if (users.isEmpty()) {
+            return new ResponseEntity<>("User Not Found", HttpStatus.BAD_GATEWAY);
+        }
+        return new ResponseEntity<>(new UpdateUserDetails(users.get().getId(),users.get().getUserName(),
+                users.get().getEmail(),
+                users.get().getProfilepic(),
+                users.get().getDOB(),users.get().getGender()),HttpStatus.OK);
     }
 }
