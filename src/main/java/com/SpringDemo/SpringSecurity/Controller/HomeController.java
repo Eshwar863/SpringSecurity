@@ -41,4 +41,8 @@ public class HomeController {
             ResponseEntity<?> updateUserDetails =userService.updateUserDetails(userDetails);
         return new ResponseEntity<>(updateUserDetails,HttpStatus.OK);
     }
+    @GetMapping("user/{username}")
+    public UpdateUserDetails user(@PathVariable (name = "username") String userName) {
+        return userService.userbyName(userName);
+    }
 }

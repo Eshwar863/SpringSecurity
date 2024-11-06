@@ -93,4 +93,13 @@ public class UserService {
         }
         return user;
     }
+
+    public UpdateUserDetails userbyName(String userName) {
+        User user = retriveLoggedInUser();
+        User user1 = userRepo.findByUserName(userName);
+        if(user1 == null){
+            throw new UsernameNotFoundException("User Not Found");
+        }
+        return new UpdateUserDetails(user.getId(), user.getUserName(), user.getEmail(), user.getProfilepic(), user.getDOB(), user.getGender());
+    }
 }
